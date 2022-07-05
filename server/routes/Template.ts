@@ -5,17 +5,24 @@ export default class Template implements Route {
   public path: string;
   constructor(){
     this.path = "/templates"
-    this.get = this.get;
   }
 
   run(){
     let router = express.Router()
     router.route(this.path)
-      .get(this.get)
+      .get(this.getAllTemplates)
+    router.route(`${this.path}/:template`)
+      .get(this.getTemplateInfos)
     return router;
   }
 
-  get(req: Request, res: Response){
-    return res.json({ok: "oueoue"})
+  getAllTemplates(req: Request, res: Response): Response {
+    return res.json({templates: "list"})
   }
+
+  getTemplateInfos(req: Request, res: Response): Response {
+    let {default: template} = require(`../templates/${req.params.template}`);
+    return res.json(new template())
+  }
+  
 }

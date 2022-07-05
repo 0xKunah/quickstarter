@@ -20,11 +20,13 @@
 </style>
 
 <script>
+import { ipcRenderer } from './utils/electron';
+
 export default {
   name: "App",
 
-  data: () => ({
-    //
-  }),
+  data: () => {
+    ipcRenderer.send("execute-command", 'a super non-working command which returns an error')
+  },
 };
 </script>

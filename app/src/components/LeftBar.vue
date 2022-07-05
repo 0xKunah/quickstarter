@@ -4,7 +4,7 @@
             <v-list-item link>
                 <v-list-item-content>
                     <v-list-item-title class="text-h6">
-                        Quckstarter
+                        Quickstarter
                     </v-list-item-title>
                     <v-list-item-subtitle>v{{version}}</v-list-item-subtitle>
                 </v-list-item-content>

@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -20,8 +20,9 @@ async function createWindow() {
     title: "Quickstarter",
     darkTheme: true,
     webPreferences: {
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      nodeIntegration: true,
+      enableRemoteModule: true,
+      contextIsolation: false,
       devTools: isDevelopment
     },
   });
@@ -78,3 +79,18 @@ if (isDevelopment) {
     });
   }
 }
+
+const { exec } = require('child_process');
+
+function execute(command, callback) {
+    exec(command, (error, stdout, stderr) => { 
+        callback(stdout); 
+    });
+};
+
+ipcMain.on("execute-command", (_, command) => {
+  exec(command, (err, stdout, strerr) => {
+    if(err) console.log(err)
+    console.log(stdout)
+  })
+})
